@@ -11,21 +11,32 @@ This module creates and manages Azure API Management instances and associated re
 The main resources created by this project are:
 
 - Azure API Management instances
-- Azure Cognitive Services accounts
 
 The module also retrieves data from existing Azure resources:
 
 - Azure Resource Groups
 - Azure Virtual Networks
+- Azure Cognitive OpenAI Accounts
+- Private DNS Zone
 
-## Configuration
+## Inputs
 
-The project uses local values to define the backends for the API Management instances. These are defined in the `main.tf` file:
+The module requires the following inputs:
 
-```terraform
-locals {
-  apim-backends = {
-    "OpenAIEUS"  = "${data.azurerm_cognitive_account.cog-accounts["aoai-dc-eastus-test"].endpoint}"
-    "OpenAIEUS2" = "${data.azurerm_cognitive_account.cog-accounts["aoai-dc-eastus2-test"].endpoint}"
-  }
-}
+- `rg-apim-aoai`: The name of the resource group where the API Management instance will be created.
+- `rg-vnet-aoai`: The name of the resource group where the Virtual Network is located.
+- `rg-aoai-endpoints`: The name of the resource group where the Cognitive Services accounts are located.
+- `vnet-aoai`: The name of the Virtual Network that the API Management instance will be connected to.
+- `sub-apim-aoai`: The name of the subnet in the Virtual Network that the API Management instance will be connected to.
+- `apim_name`: The name of the API Management instance.
+- `location`: The Azure region where the API Management instance will be created.
+- `sku_name`: The SKU name of the API Management instance.
+- `publisher_name`: The name of the publisher.
+- `publisher_email`: The email of the publisher.
+- `zones`: The zones where the API Management should be created. This is optional and defaults to an empty list if not provided.
+
+## Usage
+
+To use this module, you need to have Terraform installed. You can then initialize the project with `terraform init` and apply the configuration with `terraform apply`.
+
+Please ensure you have the necessary Azure credentials set up in your environment.
