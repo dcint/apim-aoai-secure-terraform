@@ -12,6 +12,13 @@ variable "rg-vnet-aoai" {
 
 }
 
+variable "rg-vnet-aoai-westus" {
+  description = "The name of the resource group where the westus virtual network is located."
+  type        = string
+  default     = "rg-vnet-aoai-westus-1"
+
+}
+
 variable "rg-aoai-endpoints" {
   description = "The name of the resource group where the OpenAI Enpoints services are located."
   type        = string
@@ -26,7 +33,21 @@ variable "vnet-aoai" {
 
 }
 
+variable "vnet-aoai-westus" {
+  description = "The name of the virtual network where the second region API Management service will be deployed."
+  type        = string
+  default     = "vnet-aoai-westus-1"
+
+}
+
 variable "sub-apim-aoai" {
+  description = "The name of the subnet where the API Management service will be deployed."
+  type        = string
+  default     = "sub-private"
+
+}
+
+variable "sub-apim-aoai-westus" {
   description = "The name of the subnet where the API Management service will be deployed."
   type        = string
   default     = "sub-private"
@@ -49,7 +70,7 @@ variable "location" {
 variable "sku_name" {
   description = "The SKU of the API Management service."
   type        = string
-  default     = "Developer_1"
+  default     = "Premium_1"
 }
 
 variable "publisher_name" {

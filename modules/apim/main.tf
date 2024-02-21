@@ -12,16 +12,32 @@ data "azurerm_resource_group" "rg-vnet-aoai" {
 
 }
 
+data "azurerm_resource_group" "rg-vnet-aoai-westus" {
+  name = var.rg-vnet-aoai-westus
+
+}
+
 data "azurerm_virtual_network" "vnet-aoai" {
   name                = var.vnet-aoai
   resource_group_name = data.azurerm_resource_group.rg-vnet-aoai.name
 
 }
 
+data "azurerm_virtual_network" "vnet-aoai-westus" {
+  name                = var.vnet-aoai-westus
+  resource_group_name = data.azurerm_resource_group.rg-vnet-aoai-westus.name
+
+}
 data "azurerm_subnet" "sub-apim-aoai" {
   name                 = var.sub-apim-aoai
   resource_group_name  = data.azurerm_resource_group.rg-vnet-aoai.name
   virtual_network_name = data.azurerm_virtual_network.vnet-aoai.name
+}
+
+data "azurerm_subnet" "sub-apim-aoai-westus" {
+  name                 = var.sub-apim-aoai-westus
+  resource_group_name  = data.azurerm_resource_group.rg-vnet-aoai-westus.name
+  virtual_network_name = data.azurerm_virtual_network.vnet-aoai-westus.name
 }
 
 data "azurerm_resource_group" "rg-aoai-endpoints" {
@@ -46,10 +62,12 @@ data "azurerm_cognitive_account" "cog-accounts" {
 // API Management service and its respective resources
 locals {
   public_ip_names = [
-    "pip-apim-sephora"
+    "pip-apim-sephora",
+    "pip-apim-westus"
   ]
   domain_name_labels = [
-    "apim-aoai-sephora"
+    "apim-aoai-sephora",
+    "apim-aoai-westus"
   ]
 }
 resource "azurerm_public_ip" "pip-apim" {
@@ -61,6 +79,14 @@ resource "azurerm_public_ip" "pip-apim" {
   domain_name_label   = local.domain_name_labels[0]
 }
 
+resource "azurerm_public_ip" "pip-apim-westus" {
+  name                = local.public_ip_names[1]
+  location            = data.azurerm_resource_group.rg-vnet-aoai-westus.location
+  resource_group_name = data.azurerm_resource_group.rg-vnet-aoai-westus.name
+  allocation_method   = "Static"
+  sku                 = "Standard"
+  domain_name_label   = local.domain_name_labels[1]
+}
 resource "azurerm_api_management" "apim-aoai" {
   name                 = var.apim_name
   location             = var.location
@@ -80,6 +106,14 @@ resource "azurerm_api_management" "apim-aoai" {
   virtual_network_type = "Internal"
   virtual_network_configuration {
     subnet_id = data.azurerm_subnet.sub-apim-aoai.id
+  }
+  additional_location {
+    location             = data.azurerm_resource_group.rg-vnet-aoai-westus.location
+    public_ip_address_id = azurerm_public_ip.pip-apim-westus.id
+    zones                = var.zones
+    virtual_network_configuration {
+      subnet_id = data.azurerm_subnet.sub-apim-aoai-westus.id
+    }
   }
 }
 

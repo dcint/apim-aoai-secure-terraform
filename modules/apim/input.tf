@@ -5,7 +5,13 @@ variable "rg-apim-aoai" {
 }
 
 variable "rg-vnet-aoai" {
-  description = "The name of the resource group where the virtual network is located."
+  description = "The name of the resource group where the eastus virtual network is located."
+  type        = string
+
+}
+
+variable "rg-vnet-aoai-westus" {
+  description = "The name of the resource group where the westus virtual network is located."
   type        = string
 
 }
@@ -22,8 +28,19 @@ variable "vnet-aoai" {
 
 }
 
+variable "vnet-aoai-westus" {
+  description = "The name of the virtual network where the second region API Management service will be deployed."
+  type        = string
+
+}
 variable "sub-apim-aoai" {
   description = "The name of the subnet where the API Management service will be deployed."
+  type        = string
+
+}
+
+variable "sub-apim-aoai-westus" {
+  description = "The name of the subnet where the second region API Management service will be deployed."
   type        = string
 
 }
