@@ -1,5 +1,5 @@
-module "apim" {
-  source               = "./modules/apim"
+module "apim-multi-region" {
+  source               = "./modules/apim-multi-region"
   rg-apim-aoai         = var.rg-apim-aoai
   rg-vnet-aoai         = var.rg-vnet-aoai
   rg-vnet-aoai-westus  = var.rg-vnet-aoai-westus
