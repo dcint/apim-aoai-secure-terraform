@@ -14,7 +14,7 @@
                 <cache-store-value key="backend-counter" value="1" duration="100" />
             </when>
             <otherwise>
-                <set-backend-service backend-id="OpenAIEUS2" />
+                <set-backend-service backend-id="OpenAIWUS" />
                 <set-variable name="backend-counter" value="0" />
                 <cache-store-value key="backend-counter" value="0" duration="100" />
             </otherwise>
@@ -36,7 +36,7 @@
                     <cache-store-value key="backend-counter" value="1" duration="100" />
                 </when>
                 <otherwise>
-                    <set-backend-service backend-id="OpenAIEUS2" />
+                    <set-backend-service backend-id="OpenAIWUS" />
                     <set-variable name="backend-counter" value="0" />
                     <cache-store-value key="backend-counter" value="0" duration="100" />
                 </otherwise>

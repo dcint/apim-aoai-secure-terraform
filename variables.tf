@@ -15,7 +15,7 @@ variable "rg-vnet-aoai" {
 variable "rg-vnet-aoai-westus" {
   description = "The name of the resource group where the westus virtual network is located."
   type        = string
-  default     = "rg-vnet-aoai-westus-1"
+  default     = "rg-vnet-aoai-westus"
 
 }
 
@@ -36,7 +36,7 @@ variable "vnet-aoai" {
 variable "vnet-aoai-westus" {
   description = "The name of the virtual network where the second region API Management service will be deployed."
   type        = string
-  default     = "vnet-aoai-westus-1"
+  default     = "vnet-aoai-westus"
 
 }
 
@@ -57,7 +57,7 @@ variable "sub-apim-aoai-westus" {
 variable "apim_name" {
   description = "The name of the API Management service."
   type        = string
-  default     = "apim-aoai-sephora"
+  default     = "apim-sephora"
 
 }
 
