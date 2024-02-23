@@ -4,7 +4,7 @@ This project uses Terraform to manage API Management resources on Azure.
 
 ## Overview
 
-This module creates and manages Azure API Management instances and associated resources. It also retrieves data from existing Azure resources like Resource Groups and Virtual Networks.
+This module creates and manages Azure API Management Multi-Region instances and associated resources. It also retrieves data from existing Azure resources like Resource Groups, Virtual Networks, and OpenAI endpoints. It provides load balancing to multiple OpenAI private endpoints in multiple regions. 
 
 ## Resources
 
@@ -40,3 +40,5 @@ The module requires the following inputs:
 To use this module, you need to have Terraform installed. You can then initialize the project with `terraform init` and apply the configuration with `terraform apply`.
 
 Please ensure you have the necessary Azure credentials set up in your environment.
+
+![Network Diagram](<files/APIM Multi-Region.png>))
