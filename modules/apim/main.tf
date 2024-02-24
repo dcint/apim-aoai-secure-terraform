@@ -33,7 +33,7 @@ data "azurerm_resource_group" "rg-aoai-endpoints" {
 locals {
   cog_accounts = {
     "aoai-dc-eastus-test"  = "eastus"
-    "aoai-dc-eastus2-test" = "eastus2"
+    "aoai-dc-eastus2-test" = "westus"
   }
 }
 
@@ -46,10 +46,10 @@ data "azurerm_cognitive_account" "cog-accounts" {
 // API Management service and its respective resources
 locals {
   public_ip_names = [
-    "pip-apim-sephora"
+    "pip-apim-aoai"
   ]
   domain_name_labels = [
-    "apim-aoai-sephora"
+    "apim-aoai-eastus"
   ]
 }
 resource "azurerm_public_ip" "pip-apim" {
@@ -85,8 +85,8 @@ resource "azurerm_api_management" "apim-aoai" {
 
 locals {
   apim-backends = {
-    "OpenAIEUS"  = "${data.azurerm_cognitive_account.cog-accounts["aoai-dc-eastus-test"].endpoint}"
-    "OpenAIEUS2" = "${data.azurerm_cognitive_account.cog-accounts["aoai-dc-eastus2-test"].endpoint}"
+    "OpenAIEUS" = "${data.azurerm_cognitive_account.cog-accounts["aoai-dc-eastus-test"].endpoint}"
+    "OpenAIWUS" = "${data.azurerm_cognitive_account.cog-accounts["aoai-dc-eastus2-test"].endpoint}"
   }
 }
 
