@@ -41,4 +41,22 @@ To use this module, you need to have Terraform installed. You can then initializ
 
 Please ensure you have the necessary Azure credentials set up in your environment.
 
+## APIM Multi-Region Deployment
+
+The example Terraform code in this repository deploys an Azure API Management (APIM) service in multi-region mode across two separate Virtual Networks (VNets), utilizing an internal network configuration. 
+
+The APIM service connects to multiple OpenAI private endpoints, which are meshed into their own separate VNets. Each regional VNet pair is linked to their corresponding `privatelink.openai.azure.com` private DNS zone. 
+
+**Important**: Do not link OpenAI private DNS zones into other region VNets as it will cause DNS resolution to break for APIM backend routing to OpenAI private endpoints.
+
+The APIM service has its own private DNS zone `azure-api.net`. This zone will be used for frontend API calls to APIM. 
+
+APIM is deployed in Internal network mode. This configuration does not use private endpoints. Instead, it uses a completely private network configuration by integrating APIM directly into the VNet. 
+
+The APIM gateway in each region (including the primary region) has a regional DNS name that follows the URL pattern of `https://<service-name>-<region>-01.regional.azure-api.net`, for example `https://contoso-westus2-01.regional.azure-api.net`. Enter these corresponding regional hostnames into the private DNS zone. 
+
+Each region has assigned private IP addresses that need to be added to the private zone. Also, include the primary host record of `https://<service-name>.azure-api.net` into the private DNS zone with both region IP addresses to take advantage of DNS round-robin allocation. 
+
+For more information on APIM in multi-region mode, refer to the [Azure documentation](https://learn.microsoft.com/en-us/azure/api-management/api-management-howto-deploy-multi-region#about-multi-region-deployment).
+
 ![Network Diagram](<files/APIM Multi-Region.png>))
