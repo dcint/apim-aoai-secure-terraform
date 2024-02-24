@@ -1,10 +1,10 @@
 # Terraform API Management Module
 
-This project uses Terraform to manage highly available and redundant API Management resources, with a backend configuration designed for scalability and resilience with OpenAI.
+This project uses Terraform to manage highly available API Management resources, with a backend configuration designed for scalability and resilience with OpenAI.
 
 ## Overview
 
-This module creates and manages Azure API Management Multi-Region instances and associated resources. It also retrieves data from existing Azure resources like Resource Groups, Virtual Networks, and OpenAI endpoints. It provides load balancing to multiple OpenAI private endpoints in multiple regions. 
+This module is responsible for creating and managing Azure API Management Multi-Region instances along with their associated resources. Existing Azure resources such as Resource Groups, Virtual Networks, and OpenAI endpoints are accessed for data retrieval. Load balancing across multiple OpenAI private endpoints in various regions is another key feature provided by this module.
 
 ## Resources
 
@@ -14,7 +14,7 @@ The main resources created by this project are:
 
 Based on the provided Terraform code, this module deploys the following resources:
 
-- **Azure API Management (APIM) Service (`azurerm_api_management`)**: This is the main resource being deployed. It's configured with a system-assigned managed identity and is set to use an internal virtual network. It also has an additional location specified for high availability.
+- **Azure API Management (APIM) Service (`azurerm_api_management`)**: Serving as the main resource, the APIM Service is deployed with a system-assigned managed identity and configured to use an internal virtual network. An additional location is specified to ensure high availability.
 
 - **Public IP Addresses (`azurerm_public_ip`)**: These are used by the APIM service. One is used for the primary location and another for the additional location.
 
