@@ -57,7 +57,7 @@ variable "sub-apim-aoai-westus" {
 variable "apim_name" {
   description = "The name of the API Management service."
   type        = string
-  default     = "apim-sephora"
+  default     = "apim-customer"
 
 }
 
@@ -76,13 +76,13 @@ variable "sku_name" {
 variable "publisher_name" {
   description = "The name of the publisher of the API Management service."
   type        = string
-  default     = "Sephora"
+  default     = "Customer"
 }
 
 variable "publisher_email" {
   description = "The email of the publisher of the API Management service."
   type        = string
-  default     = "david@cintron.io"
+  default     = "Email Address"
 }
 
 variable "zones" {
