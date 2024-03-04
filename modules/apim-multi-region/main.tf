@@ -4,44 +4,28 @@
 data "azurerm_client_config" "current" {}
 
 data "azurerm_resource_group" "rg-apim-aoai" {
-  name = var.rg-apim-aoai
-
+  name = var.rg_apim_aoai
 }
 data "azurerm_resource_group" "rg-vnet-aoai" {
-  name = var.rg-vnet-aoai
-
-}
-
-data "azurerm_resource_group" "rg-vnet-aoai-westus" {
-  name = var.rg-vnet-aoai-westus
+  for_each = var.rg_vnet_aoai
+  name     = each.value
 
 }
 
 data "azurerm_virtual_network" "vnet-aoai" {
-  name                = var.vnet-aoai
-  resource_group_name = data.azurerm_resource_group.rg-vnet-aoai.name
-
-}
-
-data "azurerm_virtual_network" "vnet-aoai-westus" {
-  name                = var.vnet-aoai-westus
-  resource_group_name = data.azurerm_resource_group.rg-vnet-aoai-westus.name
+  for_each            = var.vnet_aoai
+  name                = each.value
+  resource_group_name = data.azurerm_resource_group.rg-vnet-aoai[each.key].name
 
 }
 data "azurerm_subnet" "sub-apim-aoai" {
-  name                 = var.sub-apim-aoai
-  resource_group_name  = data.azurerm_resource_group.rg-vnet-aoai.name
-  virtual_network_name = data.azurerm_virtual_network.vnet-aoai.name
+  for_each             = var.sub_apim_aoai
+  name                 = each.value
+  resource_group_name  = data.azurerm_resource_group.rg-vnet-aoai[each.key].name
+  virtual_network_name = data.azurerm_virtual_network.vnet-aoai[each.key].name
 }
-
-data "azurerm_subnet" "sub-apim-aoai-westus" {
-  name                 = var.sub-apim-aoai-westus
-  resource_group_name  = data.azurerm_resource_group.rg-vnet-aoai-westus.name
-  virtual_network_name = data.azurerm_virtual_network.vnet-aoai-westus.name
-}
-
 data "azurerm_resource_group" "rg-aoai-endpoints" {
-  name = var.rg-aoai-endpoints
+  name = var.rg_aoai_endpoints
 
 }
 
@@ -72,8 +56,8 @@ locals {
 }
 resource "azurerm_public_ip" "pip-apim" {
   name                = local.public_ip_names[0]
-  location            = data.azurerm_resource_group.rg-vnet-aoai.location
-  resource_group_name = data.azurerm_resource_group.rg-vnet-aoai.name
+  location            = data.azurerm_resource_group.rg-vnet-aoai["eus"].location
+  resource_group_name = data.azurerm_resource_group.rg-vnet-aoai["eus"].name
   allocation_method   = "Static"
   sku                 = "Standard"
   domain_name_label   = local.domain_name_labels[0]
@@ -81,8 +65,8 @@ resource "azurerm_public_ip" "pip-apim" {
 
 resource "azurerm_public_ip" "pip-apim-westus" {
   name                = local.public_ip_names[1]
-  location            = data.azurerm_resource_group.rg-vnet-aoai-westus.location
-  resource_group_name = data.azurerm_resource_group.rg-vnet-aoai-westus.name
+  location            = data.azurerm_resource_group.rg-vnet-aoai["wus"].location
+  resource_group_name = data.azurerm_resource_group.rg-vnet-aoai["wus"].name
   allocation_method   = "Static"
   sku                 = "Standard"
   domain_name_label   = local.domain_name_labels[1]
@@ -105,14 +89,14 @@ resource "azurerm_api_management" "apim-aoai" {
 
   virtual_network_type = "Internal"
   virtual_network_configuration {
-    subnet_id = data.azurerm_subnet.sub-apim-aoai.id
+    subnet_id = data.azurerm_subnet.sub-apim-aoai["eus"].id
   }
   additional_location {
-    location             = data.azurerm_resource_group.rg-vnet-aoai-westus.location
+    location             = data.azurerm_resource_group.rg-vnet-aoai["wus"].location
     public_ip_address_id = azurerm_public_ip.pip-apim-westus.id
     zones                = var.zones
     virtual_network_configuration {
-      subnet_id = data.azurerm_subnet.sub-apim-aoai-westus.id
+      subnet_id = data.azurerm_subnet.sub-apim-aoai["wus"].id
     }
   }
 }
@@ -170,7 +154,7 @@ locals {
 data "azurerm_private_dns_zone" "private-dns-zone" {
   for_each            = local.create_private_dns_zone ? toset(local.private_dns_zones) : toset([])
   name                = each.value
-  resource_group_name = data.azurerm_resource_group.rg-vnet-aoai.name
+  resource_group_name = data.azurerm_resource_group.rg-vnet-aoai["eus"].name
 }
 locals {
   create_private_dns_a_records = true
@@ -185,7 +169,7 @@ resource "azurerm_private_dns_a_record" "a-record" {
   for_each            = local.create_private_dns_a_records ? toset(local.private_dns_a_records) : toset([])
   name                = each.value
   zone_name           = data.azurerm_private_dns_zone.private-dns-zone["azure-api.net"].name
-  resource_group_name = data.azurerm_resource_group.rg-vnet-aoai.name
+  resource_group_name = data.azurerm_resource_group.rg-vnet-aoai["eus"].name
   ttl                 = 300
   records             = [azurerm_api_management.apim-aoai.private_ip_addresses[0]]
 

@@ -1,50 +1,32 @@
-variable "rg-apim-aoai" {
+variable "rg_apim_aoai" {
   description = "The name of the resource group where the API Management service will be created."
   type        = string
 
 }
 
-variable "rg-vnet-aoai" {
+variable "rg_vnet_aoai" {
   description = "The name of the resource group where the eastus virtual network is located."
-  type        = string
+  type        = map(string)
 
 }
 
-variable "rg-vnet-aoai-westus" {
-  description = "The name of the resource group where the westus virtual network is located."
-  type        = string
-
-}
-
-variable "rg-aoai-endpoints" {
+variable "rg_aoai_endpoints" {
   description = "The name of the resource group where the OpenAI Enpoints services are located."
   type        = string
 
 }
 
-variable "vnet-aoai" {
+variable "vnet_aoai" {
   description = "The name of the virtual network where the API Management service will be deployed."
-  type        = string
+  type        = map(string)
 
 }
 
-variable "vnet-aoai-westus" {
-  description = "The name of the virtual network where the second region API Management service will be deployed."
-  type        = string
-
-}
-variable "sub-apim-aoai" {
+variable "sub_apim_aoai" {
   description = "The name of the subnet where the API Management service will be deployed."
-  type        = string
+  type        = map(string)
 
 }
-
-variable "sub-apim-aoai-westus" {
-  description = "The name of the subnet where the second region API Management service will be deployed."
-  type        = string
-
-}
-
 variable "apim_name" {
   description = "The name of the API Management service."
   type        = string
@@ -76,6 +58,3 @@ variable "zones" {
   type        = list(string)
 
 }
-
-
-
