@@ -84,6 +84,3 @@ variable "zones" {
   default     = null
 
 }
-
-
-
