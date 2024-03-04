@@ -1,18 +1,15 @@
 module "apim-multi-region" {
-  source               = "./modules/apim-multi-region"
-  rg-apim-aoai         = var.rg-apim-aoai
-  rg-vnet-aoai         = var.rg-vnet-aoai
-  rg-vnet-aoai-westus  = var.rg-vnet-aoai-westus
-  rg-aoai-endpoints    = var.rg-aoai-endpoints
-  vnet-aoai            = var.vnet-aoai
-  vnet-aoai-westus     = var.vnet-aoai-westus
-  sub-apim-aoai        = var.sub-apim-aoai
-  sub-apim-aoai-westus = var.sub-apim-aoai-westus
-  apim_name            = var.apim_name
-  location             = var.location
-  sku_name             = var.sku_name
-  publisher_name       = var.publisher_name
-  publisher_email      = var.publisher_email
-  zones                = var.zones
+  source            = "./modules/apim-multi-region"
+  rg_apim_aoai      = var.rg_apim_aoai
+  rg_vnet_aoai      = var.rg_vnet_aoai
+  rg_aoai_endpoints = var.rg_aoai_endpoints
+  vnet_aoai         = var.vnet_aoai
+  sub_apim_aoai     = var.sub_apim_aoai
+  apim_name         = var.apim_name
+  location          = var.location
+  sku_name          = var.sku_name
+  publisher_name    = var.publisher_name
+  publisher_email   = var.publisher_email
+  zones             = var.zones
 
 }

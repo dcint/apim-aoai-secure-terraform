@@ -1,53 +1,46 @@
-variable "rg-apim-aoai" {
+variable "rg_apim_aoai" {
   description = "The name of the resource group where the API Management service will be created."
   type        = string
   default     = "rg-sephora-aoai"
 
 }
 
-variable "rg-vnet-aoai" {
+variable "rg_vnet_aoai" {
   description = "The name of the resource group where the virtual network is located."
-  type        = string
-  default     = "rg-vnet-aoai-eastus"
-
+  type        = map(string)
+  default = {
+    eus = "rg-vnet-aoai-eastus"
+    wus = "rg-vnet-aoai-westus"
+  }
 }
 
-variable "rg-vnet-aoai-westus" {
-  description = "The name of the resource group where the westus virtual network is located."
-  type        = string
-  default     = "rg-vnet-aoai-westus"
-
-}
-
-variable "rg-aoai-endpoints" {
+variable "rg_aoai_endpoints" {
   description = "The name of the resource group where the OpenAI Enpoints services are located."
   type        = string
   default     = "rg-aoai-test-eastus"
 
 }
 
-variable "vnet-aoai" {
+variable "vnet_aoai" {
   description = "The name of the virtual network where the API Management service will be deployed."
-  type        = string
-  default     = "vnet-aoai-eastus"
+  type        = map(string)
+  default = {
+    eus = "vnet-aoai-eastus"
+    wus = "vnet-aoai-westus"
 
+  }
 }
-
-variable "vnet-aoai-westus" {
-  description = "The name of the virtual network where the second region API Management service will be deployed."
-  type        = string
-  default     = "vnet-aoai-westus"
-
-}
-
-variable "sub-apim-aoai" {
+variable "sub_apim_aoai" {
   description = "The name of the subnet where the API Management service will be deployed."
-  type        = string
-  default     = "sub-private"
+  type        = map(string)
+  default = {
+    eus = "sub-private"
+    wus = "sub-private"
+  }
 
 }
 
-variable "sub-apim-aoai-westus" {
+variable "sub_apim_aoai_westus" {
   description = "The name of the subnet where the API Management service will be deployed."
   type        = string
   default     = "sub-private"
@@ -82,7 +75,7 @@ variable "publisher_name" {
 variable "publisher_email" {
   description = "The email of the publisher of the API Management service."
   type        = string
-  default     = "Email Address"
+  default     = "david@cintron.io"
 }
 
 variable "zones" {
